@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Фильтрация данных</title>
+  <script src="js\react\react.development.js"></script>
+  <script src="js\react\react-dom.development.js"></script>
+  <script src="js\react\babel.min.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    empty div
+  </div>
+</body>
+
+<script type="text/babel">
+
+  const libraries = [
+   { name: 'Backbone.js', url: 'http://backbonejs.ru/' },
+   { name: 'AngularJS', url: 'https://angularjs.org/' },
+   { name: 'jQuery', url: 'http://jquery.com/' },
+   { name: 'Prototype', url: 'http://www.prototypejs.org/' },
+   { name: 'React', url: 'http://facebook.github.io/react/' },
+   { name: 'Ember', url: 'http://emberjs.com/' },
+   { name: 'Knockout.js', url: 'http://knockoutjs.com/' },
+   { name: 'Dojo', url: 'http://dojotoolkit.org/' },
+   { name: 'Mootools', url: 'http://mootools.net/' },
+   { name: 'Underscore', url: 'http://underscorejs.ru/' },
+   { name: 'Lodash', url: 'http://lodash.com/' },
+   { name: 'Moment', url: 'http://momentjs.com/' },
+   { name: 'Express', url: 'http://expressjs.com/' },
+   { name: 'Koa', url: 'http://koajs.com/' },
+  ];
+
+class Search extends React.Component {
+  constructor(props) {
+    super(props);
+    this.inputInfo = React.createRef();
+    this.state = {
+      srcArray: libraries, // const src array libraries
+      arrayToShow: libraries // will change and shown on page
+    };
+  }
+  show = (item, i) => {
+    return (
+      <React.Fragment>
+      <li key={i}> {item.name} <a href={item.url}>{item.url}</a></li>
+      </React.Fragment>
+    )
+  }
+  search = () => {
+    var resArr = [];
+    var incArr = this.state.srcArray;
+    var str = "";
+    var searchedText = this.inputInfo.current.value.toLowerCase();
+    console.log("Value to search: " + this.inputInfo.current.value) // check work in console
+
+    incArr.map(function(item){
+      str = item.name.toLowerCase();
+      console.log(str); // check work in console
+      if (str.search(searchedText)> -1) {
+        resArr.push(item)
+      }
+    })
+    this.setState({arrayToShow: resArr})
+  }
+  render (){
+    return(
+    <div>
+      <input ref={this.inputInfo} onInput={this.search} type="text" placeholder="text here" /> <br/>
+      <br/>
+      {this.state.arrayToShow.map (this.show)}
+    </div>
+    )
+  }
+}
+var dest = document.getElementById("app");
+ReactDOM.render(<Search srcInfo="libraries"/>, dest)
+</script>
+
+</html>

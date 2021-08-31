@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="css\bigTaskReact.css">
+  <script src="js\react\react.development.js"></script>
+  <script src="js\react\react-dom.development.js"></script>
+  <script src="js\react\babel.min.js"></script>
+</head>
+<body>
+
+  <div id="test"></div>
+  <p id="chosen-text"></p>
+
+
+</body>
+
+<script type="text/babel">
+
+  var loc = document.getElementById("test");
+
+  class Box extends React.Component {
+    constructor(props) {
+      super(props);
+  };
+    render () {
+      return (<ul>
+        <Element id="1" titel="Главная" />
+        <Element id="2" titel="Сервисы" />
+        <Element id="3" titel="О нас" />
+        <Element id="4" titel="Контакты" />
+      </ul>);
+    }
+  };
+
+class Element extends React.Component {
+  constructor(props) {
+    super(props)
+  };
+  focused = () => {
+    var elementsArr = document.getElementsByClassName("element");
+    for (var i = 0; i < elementsArr.length; i++) {
+      elementsArr[i].classList.remove("focused");
+    };
+    var element = document.getElementById(this.props.id);
+    element.classList.add("focused");
+    document.getElementById("chosen-text").innerHTML = "Выбрано: " + this.props.titel;
+  };
+  render (){
+    return (
+    <li id={this.props.id} className="element" onClick={this.focused}>{this.props.titel}</li>)
+  };
+};
+
+
+
+  ReactDOM.render(<Box />,loc);
+
+
+</script>
+
+</html>
